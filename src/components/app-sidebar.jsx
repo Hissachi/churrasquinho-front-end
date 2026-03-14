@@ -17,146 +17,52 @@ import { LayoutDashboardIcon, ListIcon, ChartBarIcon, FolderIcon, UsersIcon, Cam
 
 const data = {
   user: {
-    name: "shadcn",
+    name: "Churrasquinho",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Início",
       url: "#",
-      icon: (
-        <LayoutDashboardIcon />
-      ),
+      icon: <LayoutDashboardIcon />,
     },
     {
-      title: "Lifecycle",
+      title: "Estoque",
       url: "#",
-      icon: (
-        <ListIcon />
-      ),
+      icon: <ListIcon />,
     },
     {
-      title: "Analytics",
+      title: "Reciclagem",
       url: "#",
-      icon: (
-        <ChartBarIcon />
-      ),
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: (
-        <FolderIcon />
-      ),
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: (
-        <UsersIcon />
-      ),
+      icon: <ChartBarIcon />,
     },
   ],
-  navClouds: [
+
+  reports: [
     {
-      title: "Capture",
-      icon: (
-        <CameraIcon />
-      ),
-      isActive: true,
+      name: "Estoque",
       url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: <DatabaseIcon />,
     },
     {
-      title: "Proposal",
-      icon: (
-        <FileTextIcon />
-      ),
+      name: "Reciclagem",
       url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: (
-        <FileTextIcon />
-      ),
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: <FileChartColumnIcon />,
     },
   ],
+
   navSecondary: [
     {
-      title: "Settings",
+      title: "Configurações",
       url: "#",
-      icon: (
-        <Settings2Icon />
-      ),
+      icon: <Settings2Icon />,
     },
     {
-      title: "Get Help",
+      title: "Ajuda",
       url: "#",
-      icon: (
-        <CircleHelpIcon />
-      ),
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: (
-        <SearchIcon />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: (
-        <DatabaseIcon />
-      ),
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: (
-        <FileChartColumnIcon />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <FileIcon />
-      ),
-    },
+      icon: <CircleHelpIcon />,
+    }
   ],
 }
 
@@ -171,7 +77,7 @@ export function AppSidebar({
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
               <a href="#">
                 <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <span className="text-base font-semibold">Churrasquinho SA</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -179,7 +85,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavDocuments items={data.reports} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
