@@ -1,14 +1,36 @@
 import { Routes, Route } from "react-router-dom"
-import DashboardPage from "./app/dashboard/page"
-import EstoquePage from "./app/estoque/page"
-// import ReciclagemPage from "./app/reciclagem/page"
+
+import DashboardPage from "@/app/dashboard/page"
+import EstoquePage from "@/app/estoque/page"
+
+import { AppSidebar } from "@/components/app-sidebar"
+import { SiteHeader } from "@/components/site-header"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<DashboardPage />} />
-      <Route path="/estoque" element={<EstoquePage />} />
-      {/* <Route path="/reciclagem" element={<ReciclagemPage />} /> */}
-    </Routes>
+    <TooltipProvider>
+      <SidebarProvider
+        style={{
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        }}
+      >
+        <AppSidebar variant="inset" />
+
+        <SidebarInset>
+          <SiteHeader />
+
+          <div className="flex flex-1 flex-col">
+            <Routes>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/estoque" element={<EstoquePage />} />
+            </Routes>
+          </div>
+
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   )
 }

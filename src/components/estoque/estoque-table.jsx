@@ -126,7 +126,7 @@ export function EstoqueTable({ columns, data }) {
                 value={String(table.getState().pagination.pageSize)}
                 onValueChange={(value) => table.setPageSize(Number(value))}
               >
-                <SelectTrigger className="w-[120px]">
+                <SelectTrigger className="w-30">
                   <SelectValue placeholder="Itens" />
                 </SelectTrigger>
 

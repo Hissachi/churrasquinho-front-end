@@ -69,7 +69,9 @@ export const columns = [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem>
+              Editar  
+            </DropdownMenuItem>
 
             <DropdownMenuItem className="text-red-500">
               Excluir
