@@ -1,0 +1,22 @@
+[
+  { "id": 1, "produto": "Carvão vegetal", "categoria": "Combustível", "quantidade": 80, "status": "Disponível" },
+  { "id": 2, "produto": "Espeto simples", "categoria": "Utensílios", "quantidade": 40, "status": "Disponível" },
+  { "id": 3, "produto": "Espeto duplo", "categoria": "Utensílios", "quantidade": 18, "status": "Baixo" },
+  { "id": 4, "produto": "Grelha inox", "categoria": "Utensílios", "quantidade": 10, "status": "Baixo" },
+  { "id": 5, "produto": "Picanha", "categoria": "Carnes", "quantidade": 15, "status": "Disponível" },
+  { "id": 6, "produto": "Alcatra", "categoria": "Carnes", "quantidade": 12, "status": "Disponível" },
+  { "id": 7, "produto": "Fraldinha", "categoria": "Carnes", "quantidade": 9, "status": "Baixo" },
+  { "id": 8, "produto": "Linguiça toscana", "categoria": "Carnes", "quantidade": 25, "status": "Disponível" },
+  { "id": 9, "produto": "Asa de frango", "categoria": "Carnes", "quantidade": 30, "status": "Disponível" },
+  { "id": 10, "produto": "Coração de frango", "categoria": "Carnes", "quantidade": 8, "status": "Baixo" },
+  { "id": 11, "produto": "Sal grosso", "categoria": "Temperos", "quantidade": 60, "status": "Disponível" },
+  { "id": 12, "produto": "Chimichurri", "categoria": "Temperos", "quantidade": 20, "status": "Disponível" },
+  { "id": 13, "produto": "Pão de alho", "categoria": "Acompanhamentos", "quantidade": 35, "status": "Disponível" },
+  { "id": 14, "produto": "Queijo coalho", "categoria": "Acompanhamentos", "quantidade": 14, "status": "Baixo" },
+  { "id": 15, "produto": "Farofa pronta", "categoria": "Acompanhamentos", "quantidade": 28, "status": "Disponível" },
+  { "id": 16, "produto": "Pinça de churrasco", "categoria": "Utensílios", "quantidade": 6, "status": "Baixo" },
+  { "id": 17, "produto": "Tábua de corte", "categoria": "Utensílios", "quantidade": 5, "status": "Baixo" },
+  { "id": 18, "produto": "Faca churrasco", "categoria": "Utensílios", "quantidade": 12, "status": "Disponível" },
+  { "id": 19, "produto": "Luvas térmicas", "categoria": "Utensílios", "quantidade": 4, "status": "Esgotado" },
+  { "id": 20, "produto": "Acendedor de carvão", "categoria": "Combustível", "quantidade": 7, "status": "Baixo" }
+]

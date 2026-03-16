@@ -29,7 +29,7 @@ const data = {
     },
     {
       title: "Estoque",
-      url: "#",
+      url: "/estoque",
       icon: <ListIcon />,
     },
     {
@@ -42,7 +42,7 @@ const data = {
   reports: [
     {
       name: "Estoque",
-      url: "#",
+      url: "/estoque",
       icon: <DatabaseIcon />,
     },
     {
