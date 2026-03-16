@@ -31,7 +31,7 @@ export function EstoqueToolbar({ table, data }) {
         className="max-w-sm"
       />
 
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <Button
           variant="outline"
           onClick={() =>
@@ -46,7 +46,7 @@ export function EstoqueToolbar({ table, data }) {
         <Button variant="outline" onClick={exportCSV}>
           Exportar CSV
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
