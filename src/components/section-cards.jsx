@@ -1,5 +1,7 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
+import { getResumoDesperdicio } from "@/services/desperdicio"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -12,9 +14,17 @@ import {
 import { TrendingUpIcon, TrendingDownIcon } from "lucide-react"
 
 export function SectionCards() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['desperdicio-resumo'],
+    queryFn: () => getResumoDesperdicio().then(res => res.data),
+  });
+
+  if (isLoading) return <p>Carregando...</p>;
+  if (error) return <p>Erro ao carregar</p>;
+
   return (
     <div
-      className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
+      className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
@@ -63,20 +73,20 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Desperdício orgânico este mês</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {data.por_tipo.comida_pronta.toFixed(2)} kg
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <TrendingUpIcon />
-              +12.5%
+              -12.5%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention{" "}
+            menos desperdício{" "}
             <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">Engagement exceed targets</div>
@@ -84,20 +94,20 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
+          <CardDescription>Desperdício reciclável este mês</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
+            {data.por_tipo.embalagem.toFixed(2)} kg
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
               <TrendingUpIcon />
-              +4.5%
+              -4.5%
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase{" "}
+            menos desperdício{" "}
             <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">Meets growth projections</div>

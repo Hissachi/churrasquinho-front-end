@@ -35,11 +35,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Button } from "@/components/ui/button";
+import { DesperdicioToolbar } from "./desperdicio-toolbar";
 
-import { EstoqueToolbar } from "./estoque-toolbar";
-
-export function EstoqueTable({ columns, data }) {
+export function DesperdicioTable({ columns, data }) {
   const table = useReactTable({
     data,
     columns,
@@ -62,7 +60,7 @@ export function EstoqueTable({ columns, data }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <EstoqueToolbar table={table} data={data} />
+      <DesperdicioToolbar table={table} data={data} />
 
       <div className="border rounded-md">
         <Table>

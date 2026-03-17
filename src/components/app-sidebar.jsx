@@ -24,7 +24,7 @@ const data = {
   navMain: [
     {
       title: "Início",
-      url: "#",
+      url: "/",
       icon: <LayoutDashboardIcon />,
     },
     {
@@ -33,8 +33,8 @@ const data = {
       icon: <ListIcon />,
     },
     {
-      title: "Reciclagem",
-      url: "#",
+      title: "Desperdício",
+      url: "/desperdicio",
       icon: <ChartBarIcon />,
     },
   ],
@@ -42,12 +42,12 @@ const data = {
   reports: [
     {
       name: "Estoque",
-      url: "/estoque",
+      url: "/estoque-report",
       icon: <DatabaseIcon />,
     },
     {
-      name: "Reciclagem",
-      url: "#",
+      name: "Desperdício",
+      url: "/desperdicio-report",
       icon: <FileChartColumnIcon />,
     },
   ],

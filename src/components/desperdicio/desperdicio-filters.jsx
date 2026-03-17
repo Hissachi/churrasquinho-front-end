@@ -9,7 +9,7 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 
-export function EstoqueFilters({ table }) {
+export function DesperdicioFilters({ table }) {
   return (
     <div className="flex flex-wrap gap-4">
 
@@ -27,7 +27,7 @@ export function EstoqueFilters({ table }) {
       >
         <SelectTrigger className="w-45">
           <SelectValue placeholder="Categoria" />
-        </SelectTrigger>
+        </SelectTrigger>W
 
         <SelectContent>
           <SelectItem value="Plástico">Plástico</SelectItem>
