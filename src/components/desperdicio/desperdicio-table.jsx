@@ -35,9 +35,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { ReciclagemToolbar } from "./reciclagem-toolbar";
+import { DesperdicioToolbar } from "./desperdicio-toolbar";
 
-export function ReciclagemTable({ columns, data }) {
+export function DesperdicioTable({ columns, data }) {
   const table = useReactTable({
     data,
     columns,
@@ -60,7 +60,7 @@ export function ReciclagemTable({ columns, data }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <ReciclagemToolbar table={table} data={data} />
+      <DesperdicioToolbar table={table} data={data} />
 
       <div className="border rounded-md">
         <Table>

@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom"
 
 import DashboardPage from "@/app/dashboard/page"
 import EstoquePage from "@/app/estoque/page"
-import ReciclagemPage from "@/app/reciclagem/page"
+import DesperdicioPage from "@/app/desperdicio/page"
 
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
@@ -27,7 +27,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/estoque" element={<EstoquePage />} />
-              <Route path="/reciclagem" element={<ReciclagemPage />} />
+              <Route path="/desperdicio" element={<DesperdicioPage />} />
             </Routes>
           </div>
 

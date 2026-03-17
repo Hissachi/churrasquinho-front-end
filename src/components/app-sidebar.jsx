@@ -33,8 +33,8 @@ const data = {
       icon: <ListIcon />,
     },
     {
-      title: "Reciclagem",
-      url: "/reciclagem",
+      title: "Desperdício",
+      url: "/desperdicio",
       icon: <ChartBarIcon />,
     },
   ],
@@ -46,8 +46,8 @@ const data = {
       icon: <DatabaseIcon />,
     },
     {
-      name: "Reciclagem",
-      url: "/reciclagem-report",
+      name: "Desperdício",
+      url: "/desperdicio-report",
       icon: <FileChartColumnIcon />,
     },
   ],

@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function ReciclagemToolbar({ table, data }) {
+export function DesperdicioToolbar({ table, data }) {
   function exportCSV() {
     const header = Object.keys(data[0]).join(",");
 
@@ -18,7 +18,7 @@ export function ReciclagemToolbar({ table, data }) {
     const a = document.createElement("a");
 
     a.href = url;
-    a.download = "reciclagem.csv";
+    a.download = "desperdicio.csv";
     a.click();
   }
 

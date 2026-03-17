@@ -29,7 +29,7 @@ export const columns = [
   },
 
   {
-    accessorKey: "tipo",
+    accessorKey: "tipo_residuo",
     header: "Tipo de Material",
   },
 

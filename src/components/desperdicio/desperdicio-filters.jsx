@@ -9,7 +9,7 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 
-export function ReciclagemFilters({ table }) {
+export function DesperdicioFilters({ table }) {
   return (
     <div className="flex flex-wrap gap-4">
 
