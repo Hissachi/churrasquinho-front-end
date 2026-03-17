@@ -24,7 +24,7 @@ const data = {
   navMain: [
     {
       title: "Início",
-      url: "#",
+      url: "/",
       icon: <LayoutDashboardIcon />,
     },
     {
@@ -34,7 +34,7 @@ const data = {
     },
     {
       title: "Reciclagem",
-      url: "#",
+      url: "/reciclagem",
       icon: <ChartBarIcon />,
     },
   ],
@@ -42,12 +42,12 @@ const data = {
   reports: [
     {
       name: "Estoque",
-      url: "/estoque",
+      url: "/estoque-report",
       icon: <DatabaseIcon />,
     },
     {
       name: "Reciclagem",
-      url: "#",
+      url: "/reciclagem-report",
       icon: <FileChartColumnIcon />,
     },
   ],
