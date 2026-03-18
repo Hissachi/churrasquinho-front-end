@@ -2,7 +2,8 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash2, Pencil } from "lucide-react";
+import { formatarDataRelativa } from "@/lib/date";
 
 import {
   DropdownMenu,
@@ -11,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const columns = [
+export const columns = ({ onEdit, onDelete }) => [
   {
     id: "select",
     header: ({ table }) => (
@@ -39,8 +40,16 @@ export const columns = [
   },
 
   {
+    accessorKey: "origem",
+    header: "Origem",
+  },
+
+  {
     accessorKey: "data",
     header: "Data",
+    cell: ({ row }) => {
+      return formatarDataRelativa(row.original.data);
+    },
   },
 
   {
@@ -55,11 +64,13 @@ export const columns = [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              Editar  
+            <DropdownMenuItem onClick={() => onEdit(item)}>
+              <Pencil className="w-4 h-4 mr-2" />
+              Editar
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="text-red-500">
+            <DropdownMenuItem className="text-red-500" onClick={() => onDelete(item)}>
+              <Trash2 className="w-4 h-4 mr-2" />
               Excluir
             </DropdownMenuItem>
           </DropdownMenuContent>

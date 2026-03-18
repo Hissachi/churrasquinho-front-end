@@ -1,11 +1,28 @@
 /src
-    src/app/dashboard/data.json
     src/app/dashboard/page.jsx
-    src/app/estoque/data.jsx
     src/app/estoque/page.jsx
+    src/app/desperdicio/page.jsx
     src/components
+    src/components/desperdicio
+    src/components/desperdicio/desperdicio-columns.jsx
+    src/components/desperdicio/desperdicio-filters.jsx
+    src/components/desperdicio/desperdicio-form.jsx
+    src/components/desperdicio/desperdicio-table.jsx
+    src/components/desperdicio/desperdicio-toolbar.jsx
+    src/components/estoque/estoque-columns.jsx
+    src/components/estoque/estoque-filters.jsx
+    src/components/estoque/estoque-form.jsx
+    src/components/estoque/estoque-table.jsx
+    src/components/estoque/estoque-toolbar.jsx
+    src/components/ui (shadcn)
     src/hooks
+    src/hooks/useDesperdicio.js
+    src/hooks/useDesperdicioMutation.js
     src/lib
+    src/lib/date.js (formatDate)
+    src/services
+    src/services/api.js
+    src/services/desperdicio.js
     src/App.jsx
     src/index.css
     src/main.jsx
