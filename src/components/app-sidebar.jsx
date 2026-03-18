@@ -55,7 +55,7 @@ const data = {
   navSecondary: [
     {
       title: "Configurações",
-      url: "#",
+      url: "/configuracoes",
       icon: <Settings2Icon />,
     },
     {
