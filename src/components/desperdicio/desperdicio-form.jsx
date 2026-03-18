@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { criarDesperdicio } from "@/services/desperdicio";
+import { useEffect, useState } from "react";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
 import {
   Select,
   SelectTrigger,
@@ -14,9 +20,12 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-export function DesperdicioForm() {
-  const queryClient = useQueryClient();
-
+export function DesperdicioForm({
+  open,
+  onOpenChange,
+  onSubmit,
+  initialData,
+}) {
   const [form, setForm] = useState({
     peso: "",
     origem: "",
@@ -24,68 +33,104 @@ export function DesperdicioForm() {
     data: "",
   });
 
-  const mutation = useMutation({
-    mutationFn: criarDesperdicio,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["desperdicios"]);
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        peso: initialData.peso || "",
+        origem: initialData.origem || "",
+        tipo_residuo: initialData.tipo_residuo || "",
+        data: initialData.data?.substring(0, 10) || "",
+      });
+    } else {
       setForm({
         peso: "",
         origem: "",
         tipo_residuo: "",
         data: "",
       });
-    },
-  });
+    }
+  }, [initialData]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    mutation.mutate({
+    onSubmit({
       ...form,
       peso: Number(form.peso),
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-wrap gap-4">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-125">
+        <DialogHeader>
+          <DialogTitle>
+            {initialData ? "Editar desperdício" : "Registrar desperdício"}
+          </DialogTitle>
+        </DialogHeader>
 
-      <Input
-        type="number"
-        placeholder="Peso (kg)"
-        value={form.peso}
-        onChange={(e) => setForm({ ...form, peso: e.target.value })}
-      />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Input
+            type="number"
+            placeholder="Peso (kg)"
+            value={form.peso}
+            onChange={(e) =>
+              setForm({ ...form, peso: e.target.value })
+            }
+          />
 
-      <Select onValueChange={(value) => setForm({ ...form, origem: value })}>
-        <SelectTrigger className="w-40">
-          <SelectValue placeholder="Origem" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="interno">Interno</SelectItem>
-          <SelectItem value="cliente">Cliente</SelectItem>
-        </SelectContent>
-      </Select>
+          <Select
+            value={form.origem}
+            onValueChange={(value) =>
+              setForm({ ...form, origem: value })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Origem" />
+            </SelectTrigger>
 
-      <Select onValueChange={(value) => setForm({ ...form, tipo_residuo: value })}>
-        <SelectTrigger className="w-48">
-          <SelectValue placeholder="Tipo" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="comida_pronta">Comida pronta</SelectItem>
-          <SelectItem value="insumo_cru">Insumo cru</SelectItem>
-          <SelectItem value="embalagem">Embalagem</SelectItem>
-        </SelectContent>
-      </Select>
+            <SelectContent>
+              <SelectItem value="interno">Interno</SelectItem>
+              <SelectItem value="cliente">Cliente</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <Input
-        type="date"
-        value={form.data}
-        onChange={(e) => setForm({ ...form, data: e.target.value })}
-      />
+          <Select
+            value={form.tipo_residuo}
+            onValueChange={(value) =>
+              setForm({ ...form, tipo_residuo: value })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Tipo de resíduo" />
+            </SelectTrigger>
 
-      <Button type="submit">
-        Registrar
-      </Button>
-    </form>
+            <SelectContent>
+              <SelectItem value="comida_pronta">
+                Comida pronta
+              </SelectItem>
+              <SelectItem value="insumo_cru">
+                Insumo cru
+              </SelectItem>
+              <SelectItem value="embalagem">
+                Embalagem
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Input
+            type="date"
+            value={form.data}
+            onChange={(e) =>
+              setForm({ ...form, data: e.target.value })
+            }
+          />
+
+          <Button type="submit">
+            {initialData ? "Salvar alterações" : "Salvar"}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
