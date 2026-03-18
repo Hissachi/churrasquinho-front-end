@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+import { useCategorias } from "@/hooks/useCategoria";
+
 import {
   Dialog,
   DialogContent,
@@ -9,10 +11,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
+  const { data: categorias = [] } = useCategorias();
+
   const [form, setForm] = useState({
     nome: "",
     categoria_id: "",
@@ -20,11 +32,12 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
     preco: "",
   });
 
+  // ✅ Preenche ao editar
   useEffect(() => {
     if (initialData) {
       setForm({
         nome: initialData.nome || "",
-        categoria_id: initialData.categoria_id || "",
+        categoria_id: String(initialData.categoria_id || ""),
         quantidade: initialData.quantidade || "",
         preco: initialData.preco || "",
       });
@@ -50,8 +63,32 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
       ...form,
       quantidade: Number(form.quantidade),
       preco: Number(form.preco),
+      categoria_id: Number(form.categoria_id),
     });
   }
+
+  // ✅ Flatten categorias (pai + sub)
+  function flattenCategorias(categorias) {
+    const result = [];
+
+    categorias.forEach((cat) => {
+      result.push({
+        id: cat.id,
+        label: cat.nome,
+      });
+
+      cat.children?.forEach((sub) => {
+        result.push({
+          id: sub.id,
+          label: `— ${sub.nome}`,
+        });
+      });
+    });
+
+    return result;
+  }
+
+  const categoriasFlat = flattenCategorias(categorias);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -63,6 +100,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Nome */}
           <Input
             name="nome"
             placeholder="Nome do produto"
@@ -70,13 +108,30 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
             onChange={handleChange}
           />
 
-          <Input
-            name="categoria_id"
-            placeholder="Categoria ID"
+          {/* Categoria */}
+          <Select
             value={form.categoria_id}
-            onChange={handleChange}
-          />
+            onValueChange={(value) =>
+              setForm((prev) => ({
+                ...prev,
+                categoria_id: value,
+              }))
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione a categoria" />
+            </SelectTrigger>
 
+            <SelectContent>
+              {categoriasFlat.map((cat) => (
+                <SelectItem key={cat.id} value={String(cat.id)}>
+                  {cat.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Quantidade */}
           <Input
             name="quantidade"
             type="number"
@@ -84,6 +139,8 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
             value={form.quantidade}
             onChange={handleChange}
           />
+
+          {/* Preço */}
           <Input
             name="preco"
             type="number"
@@ -93,7 +150,10 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
             onChange={handleChange}
           />
 
-          <Button type="submit">{initialData ? "Atualizar" : "Criar"}</Button>
+          {/* Botão */}
+          <Button type="submit">
+            {initialData ? "Atualizar" : "Criar"}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
