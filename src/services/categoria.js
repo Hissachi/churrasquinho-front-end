@@ -9,3 +9,11 @@ export const criarCategoria = async (payload) => {
   const response = await api.post("/categorias", payload);
   return response.data;
 };
+
+export function atualizarCategoria(id, data) {
+  return api.put(`/categorias/${id}`, data);
+}
+
+export function deletarCategoria(id) {
+  return api.delete(`/categorias/${id}`);
+}
