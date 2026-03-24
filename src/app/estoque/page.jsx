@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useProdutos } from "@/hooks/useProduto";
 import { useProdutoMutations } from "@/hooks/useProdutoMutations";
 
+import { EstoqueDetailsModal } from "@/components/estoque/estoque-details";
 import { columns } from "@/components/estoque/estoque-columns";
 import { EstoqueTable } from "@/components/estoque/estoque-table";
 import { EstoqueForm } from "@/components/estoque/estoque-form";
@@ -17,6 +18,8 @@ export default function EstoquePage() {
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [openDetails, setOpenDetails] = useState(false);
 
   function handleSubmit(formData) {
     if (selectedItem) {
@@ -47,6 +50,7 @@ export default function EstoquePage() {
         </Button>
       </div>
 
+      {/* FORM */}
       <EstoqueForm
         open={openModal}
         onOpenChange={(open) => {
@@ -57,6 +61,7 @@ export default function EstoquePage() {
         initialData={selectedItem}
       />
 
+      {/* TABLE */}
       {isLoading ? (
         <div className="text-muted-foreground">
           Carregando produtos...
@@ -73,10 +78,28 @@ export default function EstoquePage() {
                 remove.mutate(item.id);
               }
             },
+            onView: (item) => {
+              setSelectedItem(item);
+              setOpenDetails(true);
+            },
           })}
           data={data}
         />
       )}
+      <EstoqueDetailsModal
+        open={openDetails}
+        onOpenChange={setOpenDetails}
+        item={selectedItem}
+        onEdit={(item) => {
+          setSelectedItem(item);
+          setOpenModal(true);
+        }}
+        onDelete={(item) => {
+          if (confirm("Excluir esse produto?")) {
+            remove.mutate(item.id);
+          }
+        }}
+      />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, Trash2, Pencil } from "lucide-react";
+import { MoreHorizontal, Trash2, Pencil, Eye } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const columns = ({ onEdit, onDelete }) => [
+export const columns = ({ onEdit, onDelete, onView }) => [
   {
     id: "select",
     header: ({ table }) => (
@@ -28,9 +28,22 @@ export const columns = ({ onEdit, onDelete }) => [
     ),
   },
 
+  // 🔥 CLIQUE NO NOME ABRE DETALHES
   {
     accessorKey: "nome",
     header: "Produto",
+    cell: ({ row }) => {
+      const item = row.original;
+
+      return (
+        <span
+          className="cursor-pointer font-medium hover:underline"
+          onClick={() => onView(item)}
+        >
+          {item.nome}
+        </span>
+      );
+    },
   },
 
   {
@@ -68,6 +81,12 @@ export const columns = ({ onEdit, onDelete }) => [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
+            {/* 🔥 NOVO */}
+            <DropdownMenuItem onClick={() => onView(item)}>
+              <Eye className="w-4 h-4 mr-2" />
+              Ver detalhes
+            </DropdownMenuItem>
+
             <DropdownMenuItem onClick={() => onEdit(item)}>
               <Pencil className="w-4 h-4 mr-2" />
               Editar
