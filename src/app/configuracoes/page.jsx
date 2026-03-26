@@ -34,7 +34,6 @@ export default function ConfiguracoesPage() {
       parent_id: parentId === "none" ? null : Number(parentId),
     });
 
-    // 🔥 ATUALIZA AUTOMATICAMENTE
     queryClient.invalidateQueries(["categorias"]);
 
     setNome("");

@@ -12,9 +12,7 @@ export function TopProdutosList({ data }) {
           <CardTitle>Ranking de Produtos</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Sem dados ainda
-          </p>
+          <p className="text-sm text-muted-foreground">Sem dados ainda</p>
         </CardContent>
       </Card>
     );
@@ -32,9 +30,9 @@ export function TopProdutosList({ data }) {
           const porcentagem = (Number(item.total) / max) * 100;
 
           return (
-            <div key={item.produto.id}>
+            <div key={item.produto_id}>
               <div className="flex justify-between text-sm">
-                <span>{item.produto.nome}</span>
+                <span>{item.nome}</span>
                 <span>{item.total}</span>
               </div>
 

@@ -23,7 +23,6 @@ export function MovimentacaoModal() {
   const { data: produtos = [] } = useProdutos();
 
   const handleSubmit = () => {
-    // 🔥 pega o produto certo (card OU select)
     const produtoIdFinal = produto?.id || produtoSelecionadoId;
 
     if (!produtoIdFinal) {
@@ -41,7 +40,7 @@ export function MovimentacaoModal() {
         onSuccess: () => {
           fechar();
           setQuantidade(1);
-          setProdutoSelecionadoId(""); // limpa select
+          setProdutoSelecionadoId("");
         },
       }
     );

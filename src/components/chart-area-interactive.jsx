@@ -33,7 +33,6 @@ export function ChartAreaInteractive() {
     movimentacoes.find((m) => m.tipo === "saida")?.total ?? 0
   );
 
-  // 🔥 estrutura adaptada para Recharts
   const chartData = [
     {
       name: "Hoje",
