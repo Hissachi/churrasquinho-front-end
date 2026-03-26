@@ -47,7 +47,6 @@ function CategoriaItem({ categoria }) {
   async function handleUpdate() {
     await atualizarCategoria(categoria.id, { nome });
 
-    // 🔥 ATUALIZA AUTOMATICAMENTE
     queryClient.invalidateQueries(["categorias"]);
 
     setIsEditing(false);
@@ -58,7 +57,6 @@ function CategoriaItem({ categoria }) {
 
     await deletarCategoria(categoria.id);
 
-    // 🔥 ATUALIZA AUTOMATICAMENTE
     queryClient.invalidateQueries(["categorias"]);
   }
 

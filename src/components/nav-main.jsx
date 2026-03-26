@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -7,23 +6,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CirclePlusIcon, MailIcon } from "lucide-react";
+import { useMovimentacaoModal } from "@/context/movimentacao-context";
+import { PlusCircle } from "lucide-react";
 
 export function NavMain({ items }) {
+  const { abrir } = useMovimentacaoModal();
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Cadastrar estoque"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-            >
-              <CirclePlusIcon />
-              <span>Registrar estoque</span>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={() => abrir(null, "entrada")}>
+              <PlusCircle className="size-4" />
+              Registrar estoque
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>

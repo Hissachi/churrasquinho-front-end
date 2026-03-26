@@ -1,26 +1,38 @@
+"use client";
 
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
-
-import data from "./data.json"
+import { DashboardCards } from "@/components/dashboard-card";
+import { ProdutosList } from "@/components/produtos-list";
+import { DashboardCharts } from "@/components/dashboard-charts";
+import { TopProdutosList } from "@/components/top-produtos-list";
+import { useDashboard } from "@/hooks/useDashboard";
 
 export default function Page() {
+  const { data, isLoading } = useDashboard();
+
+  if (isLoading) return <p>Carregando dashboard...</p>;
+
   return (
-          <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-1 flex-col gap-2">
-              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
+        
+        {/* KPIs */}
+        <DashboardCards />
 
-                <SectionCards />
+        {/* GRÁFICOS */}
+        <DashboardCharts data={data} />
 
-                <div className="px-4 lg:px-6">
-                  <ChartAreaInteractive />
-                </div>
+        {/* RANKING */}
+        <TopProdutosList data={data} />
 
-                <DataTable data={data} />
+        {/* AÇÃO */}
+        <div>
+          <h2 className="text-lg font-semibold mb-2">
+            Movimentar estoque
+          </h2>
+          <ProdutosList />
+        </div>
 
-              </div>
-            </div>
-          </div>
-  )
+      </div>
+    </div>
+  );
 }

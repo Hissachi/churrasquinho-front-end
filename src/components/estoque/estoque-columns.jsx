@@ -1,6 +1,5 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal, Trash2, Pencil, Eye } from "lucide-react";
 
@@ -13,59 +12,80 @@ import {
 
 export const columns = ({ onEdit, onDelete, onView }) => [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-      />
-    ),
-  },
-
-  // 🔥 CLIQUE NO NOME ABRE DETALHES
-  {
     accessorKey: "nome",
     header: "Produto",
+  },
+
+  {
+    accessorKey: "quantidade",
+    header: "Estoque",
+  },
+
+    {
+    header: "Custo",
+    cell: ({ row }) =>
+      row.original.custo ? `R$ ${Number(row.original.custo).toFixed(2)}` : "—",
+  },
+
+  {
+    header: "Preço",
+    cell: ({ row }) => `R$ ${Number(row.original.preco).toFixed(2)}`,
+  },
+
+  {
+    header: "Margem",
     cell: ({ row }) => {
-      const item = row.original;
+      const margem = row.original.margem;
+
+      if (margem == null) return "—";
 
       return (
         <span
-          className="cursor-pointer font-medium hover:underline"
-          onClick={() => onView(item)}
+          className={
+            margem < 0
+              ? "text-red-500 font-semibold"
+              : "text-green-600 font-semibold"
+          }
         >
-          {item.nome}
+          {margem}%
         </span>
       );
     },
   },
 
   {
-    header: "Categoria",
-    cell: ({ row }) => row.original.categoria?.nome ?? "-",
-  },
+    header: "Lucro potencial",
+    cell: ({ row }) => {
+      const lucro = row.original.lucro_total;
 
-  {
-    accessorKey: "quantidade",
-    header: "Quantidade",
+      if (lucro == null) return "—";
+
+      return (
+        <span
+          className={
+            lucro < 0
+              ? "text-red-500 font-semibold"
+              : "text-green-600 font-semibold"
+          }
+        >
+          R$ {lucro.toFixed(2)}
+        </span>
+      );
+    },
   },
 
   {
     id: "status",
     header: "Status",
     cell: ({ row }) => {
-      const quantidade = row.original.quantidade;
+      const status = row.original.status;
 
-      if (quantidade > 10) return <Badge>Disponível</Badge>;
-      if (quantidade > 0) return <Badge variant="secondary">Baixo</Badge>;
+      if (status === "disponivel") return <Badge>Disponível</Badge>;
+      if (status === "baixo") return <Badge variant="secondary">Baixo</Badge>;
+      if (status === "esgotado")
+        return <Badge variant="destructive">Esgotado</Badge>;
 
-      return <Badge variant="destructive">Esgotado</Badge>;
+      return <Badge variant="outline">Inativo</Badge>;
     },
   },
 
@@ -81,7 +101,6 @@ export const columns = ({ onEdit, onDelete, onView }) => [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            {/* 🔥 NOVO */}
             <DropdownMenuItem onClick={() => onView(item)}>
               <Eye className="w-4 h-4 mr-2" />
               Ver detalhes
