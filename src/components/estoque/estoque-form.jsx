@@ -30,9 +30,9 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
     categoria_id: "",
     quantidade: "",
     preco: "",
+    custo: "",
   });
 
-  // ✅ Preenche ao editar
   useEffect(() => {
     if (initialData) {
       setForm({
@@ -40,6 +40,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
         categoria_id: String(initialData.categoria_id || ""),
         quantidade: initialData.quantidade || "",
         preco: initialData.preco || "",
+        custo: initialData.custo || "",
       });
     } else {
       setForm({
@@ -47,6 +48,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
         categoria_id: "",
         quantidade: "",
         preco: "",
+        custo: "",
       });
     }
   }, [initialData]);
@@ -63,11 +65,11 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
       ...form,
       quantidade: Number(form.quantidade),
       preco: Number(form.preco),
+      custo: Number(form.custo),
       categoria_id: Number(form.categoria_id),
     });
   }
 
-  // ✅ Flatten categorias (pai + sub)
   function flattenCategorias(categorias) {
     const result = [];
 
@@ -101,6 +103,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Nome */}
+          <label className="text-sm font-medium text-gray-600">Nome</label>
           <Input
             name="nome"
             placeholder="Nome do produto"
@@ -109,6 +112,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
           />
 
           {/* Categoria */}
+          <label className="text-sm font-medium text-gray-600">Categoria</label>
           <Select
             value={form.categoria_id}
             onValueChange={(value) =>
@@ -132,6 +136,7 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
           </Select>
 
           {/* Quantidade */}
+          <label className="text-sm font-medium text-gray-600">Quantidade</label>
           <Input
             name="quantidade"
             type="number"
@@ -140,20 +145,33 @@ export function EstoqueForm({ open, onOpenChange, onSubmit, initialData }) {
             onChange={handleChange}
           />
 
-          {/* Preço */}
+          {/* Custo */}
+          <label className="text-sm font-medium text-gray-600">Custo</label>
+          <Input
+            name="custo"
+            type="number"
+            step="0.01"
+            placeholder="Custo (R$)"
+            value={form.custo}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, custo: e.target.value }))
+            }
+          />
+
+          <label className="text-sm font-medium text-gray-600">Preço de venda</label>
           <Input
             name="preco"
             type="number"
             step="0.01"
             placeholder="Preço (R$)"
             value={form.preco}
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, preco: e.target.value }))
+            }
           />
 
           {/* Botão */}
-          <Button type="submit">
-            {initialData ? "Atualizar" : "Criar"}
-          </Button>
+          <Button type="submit">{initialData ? "Atualizar" : "Criar"}</Button>
         </form>
       </DialogContent>
     </Dialog>

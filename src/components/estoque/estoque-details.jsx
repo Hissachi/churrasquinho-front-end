@@ -57,9 +57,21 @@ export function EstoqueDetailsModal({
             highlight
           />
 
+          <InfoCard label="Categoria" value={item.categoria?.nome || "—"} />
+
           <InfoCard
-            label="Categoria"
-            value={item.categoria?.nome || "—"}
+            label="Custo"
+            value={`R$ ${Number(item.custo || 0).toFixed(2)}`}
+          />
+
+          <InfoCard
+            label="Margem"
+            value={item.margem ? `${item.margem}%` : "—"}
+          />
+
+          <InfoCard
+            label="Lucro potencial"
+            value={item.lucro_total ? `R$ ${item.lucro_total.toFixed(2)}` : "—"}
           />
         </div>
 
@@ -67,12 +79,8 @@ export function EstoqueDetailsModal({
 
         {/* METADADOS */}
         <div className="text-sm text-muted-foreground flex flex-col gap-1">
-          <span>
-            Criado em: {formatDate(item.created_at)}
-          </span>
-          <span>
-            Atualizado em: {formatDate(item.updated_at)}
-          </span>
+          <span>Criado em: {formatDate(item.created_at)}</span>
+          <span>Atualizado em: {formatDate(item.updated_at)}</span>
         </div>
 
         <Separator className="my-4" />
@@ -90,10 +98,7 @@ export function EstoqueDetailsModal({
             Editar
           </Button>
 
-          <Button
-            variant="destructive"
-            onClick={() => onDelete(item)}
-          >
+          <Button variant="destructive" onClick={() => onDelete(item)}>
             <Trash className="w-4 h-4 mr-2" />
             Excluir
           </Button>
