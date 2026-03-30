@@ -33,6 +33,8 @@ export function DesperdicioForm({
     data: "",
   });
 
+  const isCliente = form.origem === "cliente";
+
   useEffect(() => {
     if (initialData) {
       setForm({
@@ -56,6 +58,7 @@ export function DesperdicioForm({
 
     onSubmit({
       ...form,
+      tipo_residuo: isCliente ? null : form.tipo_residuo,
       peso: Number(form.peso),
     });
   }
@@ -65,11 +68,13 @@ export function DesperdicioForm({
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
           <DialogTitle>
-            {initialData ? "Editar desperdício" : "Registrar desperdício"}
+            {initialData
+              ? "Editar desperdício"
+              : "Registrar desperdício"}
           </DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input
             type="number"
             placeholder="Peso (kg)"
@@ -82,7 +87,11 @@ export function DesperdicioForm({
           <Select
             value={form.origem}
             onValueChange={(value) =>
-              setForm({ ...form, origem: value })
+              setForm({
+                ...form,
+                origem: value,
+                tipo_residuo: "",
+              })
             }
           >
             <SelectTrigger>
@@ -95,28 +104,35 @@ export function DesperdicioForm({
             </SelectContent>
           </Select>
 
-          <Select
-            value={form.tipo_residuo}
-            onValueChange={(value) =>
-              setForm({ ...form, tipo_residuo: value })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Tipo de resíduo" />
-            </SelectTrigger>
+          {isCliente ? (
+            <div className="text-sm text-muted-foreground p-3 border rounded-md">
+              O desperdício do cliente é considerado como{" "}
+              <strong>misturado</strong> e não é separado por tipo.
+            </div>
+          ) : (
+            <Select
+              value={form.tipo_residuo}
+              onValueChange={(value) =>
+                setForm({ ...form, tipo_residuo: value })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Tipo de resíduo" />
+              </SelectTrigger>
 
-            <SelectContent>
-              <SelectItem value="comida_pronta">
-                Comida pronta
-              </SelectItem>
-              <SelectItem value="insumo_cru">
-                Insumo cru
-              </SelectItem>
-              <SelectItem value="embalagem">
-                Embalagem
-              </SelectItem>
-            </SelectContent>
-          </Select>
+              <SelectContent>
+                <SelectItem value="comida_pronta">
+                  Comida pronta
+                </SelectItem>
+                <SelectItem value="insumo_cru">
+                  Insumo cru
+                </SelectItem>
+                <SelectItem value="embalagem">
+                  Embalagem
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          )}
 
           <Input
             type="date"
