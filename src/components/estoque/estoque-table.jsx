@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   flexRender,
   getCoreRowModel,
@@ -35,20 +37,45 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Button } from "@/components/ui/button";
-
 import { EstoqueToolbar } from "./estoque-toolbar";
+import { useCategorias } from "@/hooks/useCategoria";
+import { useMemo } from "react";
 
 export function EstoqueTable({ columns, data }) {
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState("");
+
+  const { data: categorias = [] } = useCategorias();
+
+  const categoriaMap = useMemo(() => {
+    const map = {};
+
+    categorias.forEach((cat) => {
+      map[cat.id] = cat.nome;
+
+      cat.children?.forEach((sub) => {
+        map[sub.id] = sub.nome;
+      });
+    });
+
+    return map;
+  }, [categorias]);
+
   const table = useReactTable({
     data,
     columns,
 
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
+    meta: {
+      categoriaMap,
     },
+
+    state: {
+      columnFilters,
+      globalFilter,
+    },
+
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
 
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -57,12 +84,11 @@ export function EstoqueTable({ columns, data }) {
   });
 
   const pageCount = table.getPageCount();
-
   const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
   return (
     <div className="flex flex-col gap-6">
-      <EstoqueToolbar table={table} data={data} />
+      <EstoqueToolbar table={table} />
 
       <div className="border rounded-md">
         <Table>
@@ -113,68 +139,46 @@ export function EstoqueTable({ columns, data }) {
           {table.getFilteredRowModel().rows.length} itens
         </p>
 
-        <div className="flex gap-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <p className="text-sm text-muted-foreground">
-                {table.getFilteredRowModel().rows.length} itens
-              </p>
+        <div className="flex items-center gap-4">
+          <Select
+            value={String(table.getState().pagination.pageSize)}
+            onValueChange={(value) => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className="w-32">
+              <SelectValue />
+            </SelectTrigger>
 
-              <Select
-                value={String(table.getState().pagination.pageSize)}
-                onValueChange={(value) => table.setPageSize(Number(value))}
-              >
-                <SelectTrigger className="w-30">
-                  <SelectValue placeholder="Itens" />
-                </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5 / página</SelectItem>
+              <SelectItem value="10">10 / página</SelectItem>
+              <SelectItem value="20">20 / página</SelectItem>
+            </SelectContent>
+          </Select>
 
-                <SelectContent>
-                  <SelectItem value="5">5 / página</SelectItem>
-                  <SelectItem value="10">10 / página</SelectItem>
-                  <SelectItem value="20">20 / página</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious onClick={() => table.previousPage()} />
+              </PaginationItem>
 
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => table.previousPage()}
-                    className={
-                      !table.getCanPreviousPage()
-                        ? "pointer-events-none opacity-50"
-                        : ""
+              {pages.map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    isActive={
+                      table.getState().pagination.pageIndex === page - 1
                     }
-                  />
+                    onClick={() => table.setPageIndex(page - 1)}
+                  >
+                    {page}
+                  </PaginationLink>
                 </PaginationItem>
+              ))}
 
-                {pages.map((page) => (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      isActive={
-                        table.getState().pagination.pageIndex === page - 1
-                      }
-                      onClick={() => table.setPageIndex(page - 1)}
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() => table.nextPage()}
-                    className={
-                      !table.getCanNextPage()
-                        ? "pointer-events-none opacity-50"
-                        : ""
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+              <PaginationItem>
+                <PaginationNext onClick={() => table.nextPage()} />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </div>
