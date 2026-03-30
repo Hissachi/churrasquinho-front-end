@@ -48,6 +48,13 @@ export function DesperdicioTable({ columns, data }) {
       },
     },
 
+    filterFns: {
+      multi: (row, columnId, filterValue) => {
+        if (!filterValue?.length) return true;
+        return filterValue.includes(row.getValue(columnId));
+      },
+    },
+
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),

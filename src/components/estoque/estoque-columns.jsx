@@ -21,21 +21,60 @@ export const columns = ({ onEdit, onDelete, onView }) => [
     header: "Estoque",
   },
 
-    {
+  {
+    accessorKey: "categoria_id",
+    header: "Categoria",
+    cell: ({ row, table }) => {
+      const map = table.options.meta?.categoriaMap || {};
+
+      const id = row.getValue("categoria_id");
+
+      return map[id] || "—";
+    },
+    filterFn: (row, id, values) => {
+      if (!values?.length) return true;
+
+      return values.includes(String(row.getValue(id)));
+    },
+  },
+
+  {
+    accessorKey: "custo",
     header: "Custo",
-    cell: ({ row }) =>
-      row.original.custo ? `R$ ${Number(row.original.custo).toFixed(2)}` : "—",
+    cell: ({ row }) => {
+      const v = row.getValue("custo");
+      return v ? `R$ ${Number(v).toFixed(2)}` : "—";
+    },
   },
 
   {
+    accessorKey: "preco",
     header: "Preço",
-    cell: ({ row }) => `R$ ${Number(row.original.preco).toFixed(2)}`,
+    cell: ({ row }) => {
+      const v = row.getValue("preco");
+      return v ? `R$ ${Number(v).toFixed(2)}` : "—";
+    },
+    filterFn: (row, id, value) => {
+      if (!value) return true;
+
+      const preco = Number(row.getValue(id));
+      if (isNaN(preco)) return false;
+
+      const min = value.min ? Number(value.min) : null;
+      const max = value.max ? Number(value.max) : null;
+
+      if (min !== null && preco < min) return false;
+      if (max !== null && preco > max) return false;
+
+      return true;
+    },
   },
 
   {
+    accessorKey: "margem",
     header: "Margem",
     cell: ({ row }) => {
-      const margem = row.original.margem;
+      const margem = row.getValue("margem");
 
       if (margem == null) return "—";
 
@@ -54,9 +93,10 @@ export const columns = ({ onEdit, onDelete, onView }) => [
   },
 
   {
+    accessorKey: "lucro_total",
     header: "Lucro potencial",
     cell: ({ row }) => {
-      const lucro = row.original.lucro_total;
+      const lucro = row.getValue("lucro_total");
 
       if (lucro == null) return "—";
 
@@ -68,24 +108,30 @@ export const columns = ({ onEdit, onDelete, onView }) => [
               : "text-green-600 font-semibold"
           }
         >
-          R$ {lucro.toFixed(2)}
+          R$ {Number(lucro).toFixed(2)}
         </span>
       );
     },
   },
 
   {
-    id: "status",
+    accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.status;
+      const status = row.getValue("status");
 
       if (status === "disponivel") return <Badge>Disponível</Badge>;
       if (status === "baixo") return <Badge variant="secondary">Baixo</Badge>;
-      if (status === "esgotado")
-        return <Badge variant="destructive">Esgotado</Badge>;
+      if (status === "indisponivel")
+        return <Badge variant="destructive">Indisponível</Badge>;
 
-      return <Badge variant="outline">Inativo</Badge>;
+      return <Badge variant="outline">—</Badge>;
+    },
+    filterFn: (row, id, value) => {
+      if (!value?.length) return true;
+
+      const status = String(row.getValue(id));
+      return value.includes(status);
     },
   },
 

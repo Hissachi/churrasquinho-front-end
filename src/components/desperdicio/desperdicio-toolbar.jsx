@@ -3,33 +3,111 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export function DesperdicioToolbar({ table, data }) {
-  function exportCSV() {
-    const header = Object.keys(data[0]).join(",");
+export function DesperdicioToolbar({ table }) {
+  function toggleFilter(columnId, value) {
+    const current = table.getColumn(columnId)?.getFilterValue() || [];
 
-    const rows = data.map((row) => Object.values(row).join(","));
+    const exists = current.includes(value);
 
-    const csv = [header, ...rows].join("\n");
+    const newValue = exists
+      ? current.filter((v) => v !== value)
+      : [...current, value];
 
-    const blob = new Blob([csv]);
+    table.getColumn(columnId)?.setFilterValue(newValue);
+  }
 
-    const url = URL.createObjectURL(blob);
+  function clearFilters() {
+    table.resetColumnFilters();
+    table.setGlobalFilter("");
+  }
 
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "desperdicio.csv";
-    a.click();
+  function isActive(columnId, value) {
+    const current = table.getColumn(columnId)?.getFilterValue() || [];
+    return current.includes(value);
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <Input
-        placeholder="Buscar..."
-        value={table.getState().globalFilter ?? ""}
-        onChange={(e) => table.setGlobalFilter(e.target.value)}
-        className="max-w-sm"
-      />
+    <div className="flex flex-col gap-3">
+
+      {/* 🔎 BUSCA */}
+      <div>
+        <p className="text-xs text-muted-foreground mb-1">Busca</p>
+        <Input
+          placeholder="Buscar desperdício..."
+          value={table.getState().globalFilter ?? ""}
+          onChange={(e) => table.setGlobalFilter(e.target.value)}
+          className="max-w-xs"
+        />
+      </div>
+
+      {/* 🎯 FILTROS */}
+      <div className="flex flex-wrap gap-4">
+
+        {/* ORIGEM */}
+        <div>
+          <p className="text-xs text-muted-foreground mb-1">Origem</p>
+          <div className="flex gap-1">
+            {[
+              { value: "interno", label: "Interno" },
+              { value: "cliente", label: "Cliente" },
+            ].map((item) => (
+              <Button
+                key={item.value}
+                size="sm"
+                variant={
+                  isActive("origem", item.value)
+                    ? "default"
+                    : "outline"
+                }
+                onClick={() =>
+                  toggleFilter("origem", item.value)
+                }
+              >
+                {item.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* TIPO */}
+        <div>
+          <p className="text-xs text-muted-foreground mb-1">Tipo</p>
+          <div className="flex gap-1 flex-wrap">
+            {[
+              { value: "Comida pronta", label: "Comida" },
+              { value: "Insumo cru", label: "Insumo" },
+              { value: "Embalagem", label: "Embalagem" },
+              { value: "Misturado", label: "Misturado" },
+            ].map((item) => (
+              <Button
+                key={item.value}
+                size="sm"
+                variant={
+                  isActive("tipo_residuo", item.value)
+                    ? "default"
+                    : "outline"
+                }
+                onClick={() =>
+                  toggleFilter("tipo_residuo", item.value)
+                }
+              >
+                {item.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* LIMPAR */}
+        <div className="flex items-end">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={clearFilters}
+          >
+            Limpar
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
