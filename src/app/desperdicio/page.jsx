@@ -8,6 +8,7 @@ import { useDesperdicioMutations } from "@/hooks/useDesperdicioMutations";
 import { columns } from "@/components/desperdicio/desperdicio-columns";
 import { DesperdicioTable } from "@/components/desperdicio/desperdicio-table";
 import { DesperdicioForm } from "@/components/desperdicio/desperdicio-form";
+import { DesperdicioDetails } from "@/components/desperdicio/desperdicio-details";
 import { Button } from "@/components/ui/button";
 
 export default function DesperdicioPage() {
@@ -15,6 +16,7 @@ export default function DesperdicioPage() {
   const { create, update, remove } = useDesperdicioMutations();
 
   const [openModal, setOpenModal] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   function handleSubmit(formData) {
@@ -41,9 +43,7 @@ export default function DesperdicioPage() {
           </p>
         </div>
 
-        <Button onClick={() => setOpenModal(true)}>
-          Registrar resíduos
-        </Button>
+        <Button onClick={() => setOpenModal(true)}>Registrar resíduos</Button>
       </div>
 
       <DesperdicioForm
@@ -57,9 +57,7 @@ export default function DesperdicioPage() {
       />
 
       {isLoading ? (
-        <div className="text-muted-foreground">
-          Carregando desperdício...
-        </div>
+        <div className="text-muted-foreground">Carregando desperdício...</div>
       ) : (
         <DesperdicioTable
           columns={columns({
@@ -72,10 +70,28 @@ export default function DesperdicioPage() {
                 remove.mutate(item.id);
               }
             },
+            onView: (item) => {
+              setSelectedItem(item);
+              setOpenDetails(true);
+            },
           })}
           data={data}
         />
       )}
+      <DesperdicioDetails
+        open={openDetails}
+        onOpenChange={setOpenDetails}
+        item={selectedItem}
+        onEdit={(item) => {
+          setSelectedItem(item);
+          setOpenModal(true);
+        }}
+        onDelete={(item) => {
+          if (confirm("Excluir esse registro?")) {
+            remove.mutate(item.id);
+          }
+        }}
+      />
     </div>
   );
 }
