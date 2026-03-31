@@ -12,7 +12,7 @@ export default function Page() {
   if (isLoading) return <p>Carregando dashboard...</p>;
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col" class="pagina">
       <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
         
         {/* KPIs */}
