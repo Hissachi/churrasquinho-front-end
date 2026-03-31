@@ -21,7 +21,6 @@ export function EstoqueToolbar({ table }) {
   const [precoMin, setPrecoMin] = useState("");
   const [precoMax, setPrecoMax] = useState("");
 
-  // 🔥 cria mapa de filhos
   const categoriaMap = useMemo(() => {
     const map = {};
 
@@ -30,7 +29,7 @@ export function EstoqueToolbar({ table }) {
 
       cat.children?.forEach((sub) => {
         map[cat.id].push(sub.id);
-        map[sub.id] = [sub.id]; // filho filtra só ele
+        map[sub.id] = [sub.id];
       });
     });
 

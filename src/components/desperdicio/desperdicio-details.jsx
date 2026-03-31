@@ -76,20 +76,17 @@ export function DesperdicioDetails({
         </DialogHeader>
 
         <div className="flex flex-col gap-6">
-          {/* 🔥 PESO */}
           <div className="text-center">
             <p className="text-sm text-muted-foreground">Peso</p>
             <p className="text-4xl font-bold">{item.peso} kg</p>
           </div>
 
-          {/* 🧠 INSIGHT */}
           {insight && (
             <div className="p-4 rounded-md border bg-muted/40">
               <p className="text-sm">{insight}</p>
             </div>
           )}
 
-          {/* 📦 INFO */}
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-muted-foreground">Origem</p>
@@ -109,7 +106,6 @@ export function DesperdicioDetails({
             </div>
           </div>
 
-          {/* ⚙️ AÇÕES */}
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => onEdit(item)}>
               Editar

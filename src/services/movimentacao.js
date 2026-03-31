@@ -5,7 +5,7 @@ export const criarMovimentacao = async (payload) => {
   return response.data;
 };
 
-export const getMovimentacao = async () => {
-  const response = await api.get("/movimentacoes");
+export const getMovimentacao = async (params = {}) => {
+  const response = await api.get("/movimentacoes", { params });
   return response.data;
 };

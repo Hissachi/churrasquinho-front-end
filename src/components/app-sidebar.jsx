@@ -15,19 +15,14 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboardIcon,
-  ListIcon,
   ChartBarIcon,
-  FolderIcon,
-  UsersIcon,
-  CameraIcon,
   FileTextIcon,
   Settings2Icon,
   CircleHelpIcon,
-  SearchIcon,
   DatabaseIcon,
   FileChartColumnIcon,
-  FileIcon,
   CommandIcon,
+  Layers,
 } from "lucide-react";
 
 const data = {
@@ -45,11 +40,11 @@ const data = {
     {
       title: "Estoque",
       url: "/estoque",
-      icon: <ListIcon />,
+      icon: <Layers />,
     },
     {
       title: "Movimentações",
-      url: "/movimentacoes",
+      url: "/movimentacao",
       icon: <FileTextIcon />,
     },
     {

@@ -18,7 +18,7 @@ export function MovimentacaoProvider({ children }) {
   const fechar = () => {
     setOpen(false);
     setProduto(null);
-    setTipo("entrada"); // reset padrão
+    setTipo("entrada");
   };
 
   return (
